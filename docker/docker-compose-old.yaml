@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    volumes:
+      - ../dbdata/mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    ports:
+      - 8081:80
+    restart: always
+    environment:
+      - PMA_HOST=${PMA_HOST}
+      - PMA_USER=${PMA_USER}
+      - PMA_PASSWORD=${PMA_PASSWORD}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
